@@ -14,8 +14,9 @@ public class TicketBookingApplication {
 
 if(ticketConfig == null){
 	Scanner input = new Scanner(System.in);
-	int totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0;
 	ticketConfig = new TicketConfig();
+	int totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0;
+
 
 	// Loop for entering Total Tickets
 	while (true) {
@@ -26,6 +27,7 @@ if(ticketConfig == null){
 				System.out.println("Total tickets cannot be less than 1");
 				continue;
 			}
+			ticketConfig.setTotalTickets(totalTickets);
 			break;
 		} catch (InputMismatchException e) {
 			System.out.println("Enter a valid integer for Total Tickets");
@@ -42,6 +44,7 @@ if(ticketConfig == null){
 				System.out.println("Enter a valid Ticket Release Rate (0 to Total Tickets)");
 				continue;
 			}
+			ticketConfig.setTicketReleaseRate(ticketReleaseRate);
 			break;
 		} catch (InputMismatchException e) {
 			System.out.println("Enter a valid integer for Ticket Release Rate");
@@ -58,6 +61,7 @@ if(ticketConfig == null){
 				System.out.println("Enter a valid Customer Retrieval Rate (0 to Total Tickets)");
 				continue;
 			}
+			ticketConfig.setCustomerRetreivalRate(customerRetrievalRate);
 			break;
 		} catch (InputMismatchException e) {
 			System.out.println("Enter a valid integer for Customer Retrieval Rate");
@@ -74,24 +78,21 @@ if(ticketConfig == null){
 				System.out.println("Maximum Ticket Capacity should be greater than or equal to Total Tickets");
 				continue;
 			}
+			ticketConfig.setMaxTicketCapacity(maxTicketCapacity);
 			break;
 		} catch (InputMismatchException e) {
 			System.out.println("Enter a valid integer for Maximum Ticket Capacity");
 			input.nextLine();
 		}
-        ticketConfig.setTotalTickets(totalTickets);
-		ticketConfig.setCustomerRetreivalRate(customerRetrievalRate);
-		ticketConfig.setTicketReleaseRate(ticketReleaseRate);
-		ticketConfig.setMaxTicketCapacity(maxTicketCapacity);
-		ConfigurationManager.configurationSave(ticketConfig);
 	}
-
+	ConfigurationManager.configurationSave(ticketConfig);
+}
 	System.out.println("\nTicket Configuration information");
 	System.out.println("Total Tickets: " + ticketConfig.getTotalTickets());
 	System.out.println("Ticket Release Rate: " + ticketConfig.getTicketReleaseRate());
 	System.out.println("Ticket Retrieval Rate: " + ticketConfig.getCustomerRetreivalRate());
 	System.out.println("Maximum Ticket Capacity: " + ticketConfig.getMaxTicketCapacity());
-}
+
 	}
 	}
 
