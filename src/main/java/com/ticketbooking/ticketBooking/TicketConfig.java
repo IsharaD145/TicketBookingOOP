@@ -3,18 +3,27 @@ package com.ticketbooking.ticketBooking;
 import java.io.Serializable;
 
 public class TicketConfig implements Serializable {
-    private int totalTickets;
+    private int totalTicketsByVendor;
+    private int totalTicketsByConsumer;
     private int ticketReleaseRate;
     private int customerRetreivalRate;
     private int maxTicketCapacity;
 
-    public int getTotalTickets() {
-        return totalTickets;
-    }
+public int getTotalTicketsByVendor(){
+    return totalTicketsByVendor;
+}
 
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
-    }
+public void setTotalTicketsByVendor(int totalTicketsByVendor){
+    this.totalTicketsByVendor=totalTicketsByVendor;
+}
+
+public int getTotalTicketsByConsumer(){
+    return totalTicketsByConsumer;
+}
+
+public void setTotalTicketsByConsumer(int totalTicketsByConsumer){
+    this.totalTicketsByConsumer=totalTicketsByConsumer;
+}
 
     public int getTicketReleaseRate() {
         return ticketReleaseRate;
