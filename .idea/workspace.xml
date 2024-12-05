@@ -5,28 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d1ac585-dd20-4d81-974d-21e9fa33e150" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Contoller/TicketController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Contoller/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketWebSocketHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/ConfigurationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/ConfigurationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketBookingApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketBookingApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/ConfigurationManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketBookingApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.ticketbooking.ticketBooking.TicketBookingApplicationTests.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.ticketbooking.ticketBooking.TicketBookingApplicationTests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/ticketbooking/ticketBooking/TicketBookingApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Vendor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/ConfigurationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/ConfigurationManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Consumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Consumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Ticket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Ticket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketBookingApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketBookingApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketPool.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketPool.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Vendor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Vendor.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,6 +63,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.TicketBookingApplication.executor": "Run",
     "git-widget-placeholder": "txtfilesave",
     "kotlin-language-version-configured": "true",
@@ -65,6 +78,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.ticketbooking.ticketBooking.Contoller" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="TicketBookingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -83,7 +101,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732626353893</updated>
-      <workItem from="1732626354975" duration="8897000" />
+      <workItem from="1732626354975" duration="96578000" />
     </task>
     <servers />
   </component>
