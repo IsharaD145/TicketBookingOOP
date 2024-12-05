@@ -9,73 +9,117 @@ public class TicketBookingApplication {
 	static Scanner input = new Scanner(System.in);
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
-        int choice = 0;
+		System.out.println("***********************************************************");
+		System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION       *");
+		System.out.println("***********************************************************");
+		System.out.println("*  1. Start in GUI                                       *");
+		System.out.println("*  2. Continue in CLI                                    *");
+		System.out.println("***********************************************************");
+		int runmethod = input.nextInt();
 
-        System.out.println("***********************************************************");
-        System.out.println("* 		 WELCOME TO TICKET BOOKING SIMULATION			  *");
-        System.out.println("***********************************************************");
-        System.out.println("* SELECT AN OPTION TO PROCEED (1, 2) 				      *");
-        System.out.println("* 1. CHECK FOR CONFIGURATION FILE AND START SIMULATION    *");
-        System.out.println("* 2. ENTER NEW CONFIGURATION INFORMATION START SIMULATION *");
-        System.out.println("***********************************************************");
-        while (true) {
-            try {
-                choice = input.nextInt();
-                if ((choice > 2) || (choice < 1)) {
-                    System.out.println("Please enter valid option, (1, 2)");
-                    continue;
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter valid data type (1, 2)");
-                input.nextLine();
-            }
-        }
+		switch (runmethod) {
+			case 1:
+				startReactApp();
+				break;
 
-        TicketConfig ticketConfig = null;
-        switch (choice) {
-            case 1:
-                ticketConfig = ConfigurationManager.configurationLoad();
-                if (ticketConfig == null) {
-                    System.out.println("Failed to load Configuration, Configuration does not exsit");
-                    System.out.println("Enter the configuration details to make configuration");
-                    ticketConfig = new TicketConfig();
-                    makeConfiguration(ticketConfig);
-                }
-                break;
+			case 2:
+				runCLI();
+				break;
+		}
+	}
 
-            case 2:
-                System.out.println("Enter Configuration Details.");
-                ticketConfig = new TicketConfig();
-                makeConfiguration(ticketConfig);
-                break;
+	private static void startReactApp() {
+		// Start the React app from the Spring Boot application
+		try {
+			ProcessBuilder processBuilder = new ProcessBuilder("npm", "start");
+			processBuilder.directory(new File("/Users/isharad/Desktop/IIT modules/L5/OOP prog /CW/springboot/cwfrontend"));
+			processBuilder.inheritIO().start();
+		} catch (IOException e) {
+			System.err.println("Error starting React app: " + e.getMessage());
+		}
+	}
 
-        }
+	private static void runCLI() {
+		int choice = 0;
+
+		System.out.println("***********************************************************");
+		System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION       *");
+		System.out.println("***********************************************************");
+		System.out.println("* SELECT AN OPTION TO PROCEED (1, 2)                     *");
+		System.out.println("* 1. CHECK FOR CONFIGURATION FILE AND START SIMULATION   *");
+		System.out.println("* 2. ENTER NEW CONFIGURATION INFORMATION START SIMULATION *");
+		System.out.println("***********************************************************");
+
+		while (true) {
+			try {
+				choice = input.nextInt();
+				if ((choice > 2) || (choice < 1)) {
+					System.out.println("Please enter a valid option, (1, 2)");
+					continue;
+				}
+				break;
+			} catch (InputMismatchException e) {
+				System.out.println("Please enter valid data type (1, 2)");
+				input.nextLine();
+			}
+		}
+
+		TicketConfig ticketConfig = null;
+		switch (choice) {
+			case 1:
+				ticketConfig = ConfigurationManager.configurationLoad();
+				if (ticketConfig == null) {
+					System.out.println("Failed to load Configuration, Configuration does not exist");
+					System.out.println("Enter the configuration details to make configuration");
+					ticketConfig = new TicketConfig();
+					makeConfiguration(ticketConfig);
+				}
+				break;
+
+			case 2:
+				System.out.println("Enter Configuration Details.");
+				ticketConfig = new TicketConfig();
+				makeConfiguration(ticketConfig);
+				break;
+		}
+
+		printConfig(ticketConfig);
+		startThreads(ticketConfig);
+
+
+    }
+
+
+	public static void printConfig(TicketConfig ticketConfig){
 		System.out.println("\n*******************************************************");
-        System.out.println("*        Ticket Configuration information             *");
+		System.out.println("*        Ticket Configuration information             *");
 		System.out.println("*******************************************************");
-        System.out.println("*   Maximum tickets can be added by vendor: " + ticketConfig.getTotalTicketsByVendor()+"         *");
-        System.out.println("*   Ticket Release Rate: " + ticketConfig.getTicketReleaseRate()+"                            *");
+		System.out.println("*   Maximum tickets can be added by vendor: " + ticketConfig.getTotalTicketsByVendor()+"         *");
+		System.out.println("*   Ticket Release Rate: " + ticketConfig.getTicketReleaseRate()+"                            *");
 		System.out.println("*   Maximum tickets can be bought by consumer: " + ticketConfig.getTotalTicketsByConsumer()+"      *");
-        System.out.println("*   Ticket Retrieval Rate: " + ticketConfig.getCustomerRetreivalRate()+"                          *");
-        System.out.println("*   Maximum Ticket Capacity: " + ticketConfig.getMaxTicketCapacity()+"                      *");
+		System.out.println("*   Ticket Retrieval Rate: " + ticketConfig.getCustomerRetreivalRate()+"                          *");
+		System.out.println("*   Maximum Ticket Capacity: " + ticketConfig.getMaxTicketCapacity()+"                      *");
 		System.out.println("*******************************************************");
 
+	}
+
+	public static void startThreads(TicketConfig ticketConfig){
+		// Run the simulation using the configuration data
 		TicketPool ticketpool = new TicketPool(ticketConfig.getMaxTicketCapacity());
 		Vendor[] vendors = new Vendor[10];
-		for(int i=0;i<vendors.length;i++){
+		for (int i = 0; i < vendors.length; i++) {
 			vendors[i] = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
-			Thread vendorThread = new Thread(vendors[i],"vendor-"+i);
+			Thread vendorThread = new Thread(vendors[i], "vendor-" + i);
 			vendorThread.start();
 		}
 
 		Consumer[] cusotmer = new Consumer[10];
-		for(int i =0;i< cusotmer.length;i++){
+		for (int i = 0; i < cusotmer.length; i++) {
 			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer());
-			Thread customerThread = new Thread(cusotmer[i],"Customer-"+i);
+			Thread customerThread = new Thread(cusotmer[i], "Customer-" + i);
 			customerThread.start();
 		}
-    }
+	}
 
 	public static void makeConfiguration(TicketConfig ticketConfig){
 

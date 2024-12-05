@@ -12,11 +12,15 @@ public class Consumer implements Runnable {
         this.buyingFrequncy=buyingFrequncy;
         this.maximumNumberOfTickets=maximumNumberOfTickets;
     }
+
     @Override
     public void run(){
-        int numberOfBuyingTickets = (int) (Math.random() * maximumNumberOfTickets) + 1;
-        for (int i = 0;i<numberOfBuyingTickets;i++){
-            Ticket ticket = ticketPool.buyTicket();
+        while(true){
+            int numberOfBuyingTickets = (int) (Math.random() * maximumNumberOfTickets) + 1;
+            for (int i = 0;i<numberOfBuyingTickets;i++){
+                Ticket ticket = ticketPool.buyTicket();
+
+            }
             try{
                 Thread.sleep(buyingFrequncy*1000);
             }catch (InterruptedException e){

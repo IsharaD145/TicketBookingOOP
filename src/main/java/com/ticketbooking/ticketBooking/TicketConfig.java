@@ -7,6 +7,18 @@ public class TicketConfig implements Serializable {
     private int totalTicketsByConsumer;
     private int ticketReleaseRate;
     private int customerRetreivalRate;
+
+    @Override
+    public String toString() {
+        return "TicketConfig{" +
+                "totalTicketsByVendor=" + totalTicketsByVendor +
+                ", totalTicketsByConsumer=" + totalTicketsByConsumer +
+                ", ticketReleaseRate=" + ticketReleaseRate +
+                ", customerRetreivalRate=" + customerRetreivalRate +
+                ", maxTicketCapacity=" + maxTicketCapacity +
+                '}';
+    }
+
     private int maxTicketCapacity;
 
 public int getTotalTicketsByVendor(){

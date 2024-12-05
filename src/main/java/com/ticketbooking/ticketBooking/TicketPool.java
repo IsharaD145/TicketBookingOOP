@@ -17,10 +17,12 @@ public class TicketPool {
     public synchronized void addTicket(Ticket ticket) {
         while (tickets.size() >= maxTickets) {
             try {
-                System.out.println(Thread.currentThread().getName() + ": Pool is full, waiting to add tickets.");
+                System.out.println(Thread.currentThread().getName() + ": Pool is full, waiting to buy tickets.");
+                TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + ": Pool is full, waiting to buy tickets.");
                 wait();
             } catch (InterruptedException e) {
                 System.err.println("Add operation interrupted.");
+                TicketWebSocketHandler.broadcast("Add operation interrupted.");
                 return;
             }
         }
@@ -28,6 +30,7 @@ public class TicketPool {
         ticket.setTicketId("Ticket-" + ticketCounter);
         tickets.add(ticket);
         System.out.println(Thread.currentThread().getName() + " added: " + ticket+" Total tickets left: "+tickets.size());
+        TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + " added: " + ticket+" Total tickets left: "+tickets.size());
         notifyAll();
     }
 
@@ -36,6 +39,7 @@ public class TicketPool {
         while (tickets.isEmpty()) {
             try {
                 System.out.println(Thread.currentThread().getName() + ": No tickets available, waiting to buy.");
+                TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + ": No tickets available, waiting to buy.");
                 wait();
             } catch (InterruptedException e) {
                 System.err.println("Buy operation interrupted.");
@@ -44,6 +48,7 @@ public class TicketPool {
         }
         Ticket ticket = tickets.remove(0);
         System.out.println(Thread.currentThread().getName() + " bought: " + ticket+" Total tickets left: "+tickets.size());
+        TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + " bought: " + ticket+" Total tickets left: "+tickets.size());
         notifyAll();
         return ticket;
     }
