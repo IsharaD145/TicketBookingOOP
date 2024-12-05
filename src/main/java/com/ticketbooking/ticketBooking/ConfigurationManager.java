@@ -17,7 +17,7 @@ public class ConfigurationManager {
     public static void configurationSave(TicketConfig ticketObject){
         ObjectMapper objmapper = new ObjectMapper();
         try{
-            File configFile = new File("/Users/isharad/Documents/GitHub/TicketBookingOOP/Configuration.json");
+            File configFile = new File("/Users/isharad/Documents/GitHub/TicketBookingOOP/src/main/java/com/ticketbooking/ticketBooking/Configuration.json");
             if(!configFile.exists()){
                 configFile.createNewFile();
             }
@@ -38,9 +38,9 @@ public class ConfigurationManager {
     public static TicketConfig configurationLoad(){
         ObjectMapper objmapp = new ObjectMapper();
         try{
-            return objmapp.readValue(new File("/Users/isharad/Documents/GitHub/TicketBookingOOP/Configuration.json"), TicketConfig.class);
+            return objmapp.readValue(new File("/Users/isharad/Documents/GitHub/TicketBookingOOP/src/main/java/com/ticketbooking/ticketBooking/Configuration.json"), TicketConfig.class);
         }catch (IOException e){
-            System.out.println("Enter new Configuration");
+            System.out.println("Error while reading file");
             return null;
         }
     }

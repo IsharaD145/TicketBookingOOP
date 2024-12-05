@@ -8,6 +8,11 @@ public class TicketConfig implements Serializable {
     private int ticketReleaseRate;
     private int customerRetreivalRate;
 
+    private int noOfVendors;
+    private int noOfConsumers;
+
+
+
     @Override
     public String toString() {
         return "TicketConfig{" +
@@ -21,7 +26,24 @@ public class TicketConfig implements Serializable {
 
     private int maxTicketCapacity;
 
-public int getTotalTicketsByVendor(){
+
+    public int getNoOfVendors() {
+        return noOfVendors;
+    }
+
+    public void setNoOfVendors(int noOfVendors) {
+        this.noOfVendors = noOfVendors;
+    }
+
+    public int getNoOfConsumers() {
+        return noOfConsumers;
+    }
+
+    public void setNoOfConsumers(int noOfConsumers) {
+        this.noOfConsumers = noOfConsumers;
+    }
+
+    public int getTotalTicketsByVendor(){
     return totalTicketsByVendor;
 }
 

@@ -6,6 +6,7 @@ import java.io.*;
 
 @SpringBootApplication
 public class TicketBookingApplication {
+	private static List<Thread> runningThreads = new ArrayList<>();
 	static Scanner input = new Scanner(System.in);
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
@@ -106,24 +107,37 @@ public class TicketBookingApplication {
 	public static void startThreads(TicketConfig ticketConfig){
 		// Run the simulation using the configuration data
 		TicketPool ticketpool = new TicketPool(ticketConfig.getMaxTicketCapacity());
-		Vendor[] vendors = new Vendor[10];
+		Vendor[] vendors = new Vendor[ticketConfig.getNoOfVendors()];
 		for (int i = 0; i < vendors.length; i++) {
 			vendors[i] = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
 			Thread vendorThread = new Thread(vendors[i], "vendor-" + i);
 			vendorThread.start();
+			runningThreads.add(vendorThread);
+			TicketWebSocketHandler.broadcast("vendor-"+i);
 		}
 
-		Consumer[] cusotmer = new Consumer[10];
+		Consumer[] cusotmer = new Consumer[ticketConfig.getNoOfConsumers()];
 		for (int i = 0; i < cusotmer.length; i++) {
 			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer());
 			Thread customerThread = new Thread(cusotmer[i], "Customer-" + i);
 			customerThread.start();
+			runningThreads.add(customerThread);
+			TicketWebSocketHandler.broadcast("Consumer-"+i);
 		}
+	}
+
+	public static void stopper(){
+		for (Thread thread:runningThreads){
+			if(thread!=null && thread.isAlive()){
+				thread.stop();
+			}
+		}
+		runningThreads.clear();
 	}
 
 	public static void makeConfiguration(TicketConfig ticketConfig){
 
-		int totalTicketsVendor,totalTicketsCustomer, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0;
+		int totalTicketsVendor,totalTicketsCustomer, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0,numOfVendors,numOfConsumers;
 
 		// Loop for entering Maximum Ticket Capacity
 		while (true) {
@@ -209,6 +223,38 @@ public class TicketBookingApplication {
 				break;
 			} catch (InputMismatchException e) {
 				System.out.println("Enter a valid integer for Customer Retrieval Frequency in seconds.");
+				input.nextLine();
+			}
+		}
+
+		while(true){
+			try{
+				System.out.print("Enter number of Vendors: ");
+				numOfVendors = input.nextInt();
+				if(numOfVendors<0){
+					System.out.println("number of vendors cannot be less than 0");
+					continue;
+				}
+				ticketConfig.setNoOfVendors(numOfVendors);
+				break;
+			}catch (InputMismatchException e){
+				System.out.println("Enter valid data type for number of Vendors");
+				input.nextLine();
+			}
+		}
+
+		while(true){
+			try{
+				System.out.print("Enter number of Consumers: ");
+				numOfConsumers = input.nextInt();
+				if(numOfConsumers<0){
+					System.out.println("number of Consumers cannot be less than 0");
+					continue;
+				}
+				ticketConfig.setNoOfVendors(numOfVendors);
+				break;
+			}catch (InputMismatchException e){
+				System.out.println("Enter valid data type for number of Vendors");
 				input.nextLine();
 			}
 		}
