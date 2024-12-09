@@ -7,16 +7,6 @@
     <list default="true" id="3d1ac585-dd20-4d81-974d-21e9fa33e150" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Configuration.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Configuration.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Contoller/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Contoller/TicketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketBookingApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketBookingApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/TicketPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/Vendor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Consumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Consumer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Contoller/TicketController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Contoller/TicketController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketBookingApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketBookingApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketPool.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/TicketPool.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Vendor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ticketbooking/ticketBooking/Vendor.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +81,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732626353893</updated>
-      <workItem from="1732626354975" duration="162901000" />
+      <workItem from="1732626354975" duration="169546000" />
     </task>
     <servers />
   </component>
