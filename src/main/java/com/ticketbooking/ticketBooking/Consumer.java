@@ -15,17 +15,18 @@ public class Consumer implements Runnable {
 
     @Override
     public void run(){
-        while(true){
+        while(!Thread.currentThread().isInterrupted()){
             int numberOfBuyingTickets = (int) (Math.random() * maximumNumberOfTickets) + 1;
-            for (int i = 0;i<numberOfBuyingTickets;i++){
-                Ticket ticket = ticketPool.buyTicket();
+            for (int i = 0;i<numberOfBuyingTickets;i++) {
+                ticketPool.buyTicket();
 
             }
-            try{
-                Thread.sleep(buyingFrequncy*1000);
-            }catch (InterruptedException e){
+            try {
+                Thread.sleep(buyingFrequncy * 1000);
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
+        System.out.println(Thread.currentThread().getName() + "Is interrupted");
     }
 }

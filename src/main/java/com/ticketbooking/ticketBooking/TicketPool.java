@@ -23,19 +23,20 @@ public class TicketPool {
             } catch (InterruptedException e) {
                 System.err.println("Add operation interrupted.");
                 TicketWebSocketHandler.broadcast("Add operation interrupted.");
-                return;
+
             }
         }
         ticketCounter++;
         ticket.setTicketId("Ticket-" + ticketCounter);
         tickets.add(ticket);
+        notifyAll();
         System.out.println(Thread.currentThread().getName() + " added: " + ticket+" Total tickets left: "+tickets.size());
         TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + " added: " + ticket+" Total tickets left: "+tickets.size());
-        notifyAll();
+
     }
 
     // Method to buy tickets
-    public synchronized Ticket buyTicket() {
+    public synchronized void buyTicket() {
         while (tickets.isEmpty()) {
             try {
                 System.out.println(Thread.currentThread().getName() + ": No tickets available, waiting to buy.");
@@ -43,13 +44,11 @@ public class TicketPool {
                 wait();
             } catch (InterruptedException e) {
                 System.err.println("Buy operation interrupted.");
-                return null;
             }
         }
         Ticket ticket = tickets.remove(0);
+        notifyAll();
         System.out.println(Thread.currentThread().getName() + " bought: " + ticket+" Total tickets left: "+tickets.size());
         TicketWebSocketHandler.broadcast(Thread.currentThread().getName() + " bought: " + ticket+" Total tickets left: "+tickets.size());
-        notifyAll();
-        return ticket;
     }
 }

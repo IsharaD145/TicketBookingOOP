@@ -6,7 +6,8 @@ import java.io.*;
 
 @SpringBootApplication
 public class TicketBookingApplication {
-	private static List<Thread> runningThreads = new ArrayList<>();
+	private static List<Thread> runningVendorThreads = new ArrayList<>();
+	private static List<Thread> runningConsumerThreads = new ArrayList<>();
 	static Scanner input = new Scanner(System.in);
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
@@ -104,16 +105,32 @@ public class TicketBookingApplication {
 
 	}
 
+
+
+	public static void addvendor( Thread threadrec){
+		runningVendorThreads.add(threadrec);
+	}
+	public static Thread returnremoveVendor(){
+		return runningVendorThreads.remove(0);
+	}
+
+	public static void addConsumer(Thread threadrec){
+		runningConsumerThreads.add(threadrec);
+	}
+
+	public static Thread returnremoveConsumer(){
+		return runningConsumerThreads.remove(0);
+	}
+
 	public static void startThreads(TicketConfig ticketConfig){
 		// Run the simulation using the configuration data
 		TicketPool ticketpool = new TicketPool(ticketConfig.getMaxTicketCapacity());
-		Vendor[] vendors = new Vendor[ticketConfig.getNoOfVendors()];
-		for (int i = 0; i < vendors.length; i++) {
-			vendors[i] = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
-			Thread vendorThread = new Thread(vendors[i], "vendor-" + i);
+		for (int i = 0; i < ticketConfig.getNoOfVendors(); i++) {
+			Vendor tred = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
+			Thread vendorThread = new Thread(tred, "vendor-" + i);
 			vendorThread.start();
-			runningThreads.add(vendorThread);
-			TicketWebSocketHandler.broadcast("vendor-"+i);
+			runningVendorThreads.add(vendorThread);
+
 		}
 
 		Consumer[] cusotmer = new Consumer[ticketConfig.getNoOfConsumers()];
@@ -121,18 +138,27 @@ public class TicketBookingApplication {
 			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer());
 			Thread customerThread = new Thread(cusotmer[i], "Customer-" + i);
 			customerThread.start();
-			runningThreads.add(customerThread);
-			TicketWebSocketHandler.broadcast("Consumer-"+i);
+			runningConsumerThreads.add(customerThread);
+
 		}
 	}
 
+
+
+
 	public static void stopper(){
-		for (Thread thread:runningThreads){
+		for (Thread thread:runningVendorThreads){
 			if(thread!=null && thread.isAlive()){
 				thread.stop();
 			}
 		}
-		runningThreads.clear();
+		for (Thread thread:runningConsumerThreads){
+			if(thread!=null && thread.isAlive()){
+				thread.stop();
+			}
+		}
+		runningVendorThreads.clear();
+		runningConsumerThreads.clear();
 	}
 
 	public static void makeConfiguration(TicketConfig ticketConfig){

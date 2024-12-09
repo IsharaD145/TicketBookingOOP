@@ -23,7 +23,7 @@ public class Vendor implements Runnable{
 
     @Override
     public void run(){
-        while(true){
+        while(!Thread.currentThread().isInterrupted()){
             Random random = new Random();
             int numberOfReleasingTickets = (int) (Math.random() * maximumNumberOfTickets) + 1;
 
@@ -40,6 +40,6 @@ public class Vendor implements Runnable{
                 throw new RuntimeException(e.getMessage());
             }
         }
-
+        System.out.println(Thread.currentThread().getName() + "Is interrupted");
     }
 }
