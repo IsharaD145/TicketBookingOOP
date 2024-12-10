@@ -1,8 +1,9 @@
 package com.ticketbooking.ticketBooking;
 
-import java.io.Serializable;
 
-public class TicketConfig implements Serializable {
+public class TicketConfig{
+
+
     private int totalTicketsByVendor;
     private int totalTicketsByConsumer;
     private int ticketReleaseRate;
@@ -83,3 +84,5 @@ public void setTotalTicketsByConsumer(int totalTicketsByConsumer){
         this.maxTicketCapacity = maxTicketCapacity;
     }
 }
+
+

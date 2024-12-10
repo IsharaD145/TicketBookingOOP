@@ -4,6 +4,7 @@ import com.ticketbooking.ticketBooking.Ticket;
 import com.ticketbooking.ticketBooking.TicketPool;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
@@ -31,7 +32,11 @@ public class Vendor implements Runnable{
                 ticketCount++;
                 int randomEvent = random.nextInt(5);
                 Ticket newticket = new Ticket(eventlist[randomEvent],new BigDecimal(1000),new Date());
-                ticketPool.addTicket(newticket);
+                try {
+                    ticketPool.addTicket(newticket);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
             try{

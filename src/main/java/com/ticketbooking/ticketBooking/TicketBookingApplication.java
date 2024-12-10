@@ -123,6 +123,7 @@ public class TicketBookingApplication {
 	}
 
 	public static void startThreads(TicketConfig ticketConfig){
+		DatabaseUtil.initializeTables();
 		// Run the simulation using the configuration data
 		TicketPool ticketpool = new TicketPool(ticketConfig.getMaxTicketCapacity());
 		for (int i = 0; i < ticketConfig.getNoOfVendors(); i++) {
