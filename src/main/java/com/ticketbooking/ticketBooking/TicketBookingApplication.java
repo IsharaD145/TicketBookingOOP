@@ -41,7 +41,7 @@ public class TicketBookingApplication {
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder("npm", "start");
 			processBuilder.directory(new File("/Users/isharad/Desktop/IIT modules/L5/OOP prog /CW/springboot/cwfrontend"));
-			processBuilder.environment().put("PORT", "3001"); // Set custom port
+			processBuilder.environment().put("PORT", "3000"); // Set custom port
 			processBuilder.inheritIO().start();
 		} catch (IOException e) {
 			System.err.println("Error starting React app: " + e.getMessage());

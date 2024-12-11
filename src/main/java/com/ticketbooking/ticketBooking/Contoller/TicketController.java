@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 public class TicketController{
 
-    private static TicketConfig config = ConfigurationManager.configurationLoad();
+
 
     @PostMapping("/save")
     public void setConfig(@RequestBody TicketConfig config){
@@ -36,6 +36,7 @@ public class TicketController{
 
     @GetMapping("/start")
     public ResponseEntity<Map<String, Integer>> startSim(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
         TicketBookingApplication.printConfig(config);
         TicketBookingApplication.startThreads(config);    //start the threads on the backend
         int vendorsCount = config.getNoOfVendors();
@@ -49,6 +50,7 @@ public class TicketController{
 
     @PostMapping("/increaseVendor")
     public void increaseVendor(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
         TicketPool ticketpool = new TicketPool(config.getMaxTicketCapacity());
         Vendor tred = new Vendor(ticketpool, config.getTicketReleaseRate(), config.getTotalTicketsByVendor());
         Thread vendorThread = new Thread(tred, "vendor-" + (config.getNoOfVendors()+1));
@@ -60,6 +62,7 @@ public class TicketController{
 
     @GetMapping("/decreaseVendor")
     public void decreaseVenddor(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
         Thread removable = TicketBookingApplication.returnremoveVendor();
         removable.stop();
         config.setNoOfVendors(config.getNoOfVendors()-1);
@@ -68,6 +71,7 @@ public class TicketController{
 
     @GetMapping("/addconsumer")
     public void addConsumer(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
         TicketPool ticketpool = new TicketPool(config.getMaxTicketCapacity());
         Consumer tred = new Consumer(ticketpool,config.getCustomerRetreivalRate(),config.getTotalTicketsByConsumer(),false);
         Thread consumerThread = new Thread(tred,"consumer-"+(config.getNoOfConsumers()+1));
@@ -79,6 +83,7 @@ public class TicketController{
 
     @GetMapping("/decreaseConsumer")
     public void decreseConsumer(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
         Thread removable = TicketBookingApplication.returnremoveConsumer();
         removable.stop();
         config.setNoOfConsumers(config.getNoOfConsumers()-1);
@@ -87,6 +92,7 @@ public class TicketController{
 
     @GetMapping("/gettotaltickets")
     public ResponseEntity<Integer> gettotaltickets(){
+        TicketConfig config = ConfigurationManager.configurationLoad();
        return ResponseEntity.ok(config.getMaxTicketCapacity());
     }
 }
