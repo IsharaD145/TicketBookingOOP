@@ -1,5 +1,12 @@
 package com.ticketbooking.ticketBooking;
 import java.util.*;
+
+import com.ticketbooking.ticketBooking.config.ConfigurationManager;
+import com.ticketbooking.ticketBooking.model.TicketConfig;
+import com.ticketbooking.ticketBooking.services.Consumer;
+import com.ticketbooking.ticketBooking.services.TicketPool;
+import com.ticketbooking.ticketBooking.services.Vendor;
+import com.ticketbooking.ticketBooking.util.DatabaseUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
@@ -31,10 +38,10 @@ public class TicketBookingApplication {
 	}
 
 	private static void startReactApp() {
-		// Start the React app from the Spring Boot application
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder("npm", "start");
 			processBuilder.directory(new File("/Users/isharad/Desktop/IIT modules/L5/OOP prog /CW/springboot/cwfrontend"));
+			processBuilder.environment().put("PORT", "3001"); // Set custom port
 			processBuilder.inheritIO().start();
 		} catch (IOException e) {
 			System.err.println("Error starting React app: " + e.getMessage());
@@ -135,9 +142,21 @@ public class TicketBookingApplication {
 		}
 
 		Consumer[] cusotmer = new Consumer[ticketConfig.getNoOfConsumers()];
+		Random random = new Random();
+		boolean vipstatus = false;
 		for (int i = 0; i < cusotmer.length; i++) {
-			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer());
-			Thread customerThread = new Thread(cusotmer[i], "Customer-" + i);
+			int number = random.nextInt(2) + 1;
+			switch (number){
+				case 1:
+					vipstatus = true;
+					break;
+
+				case 2:
+					vipstatus=false;
+					break;
+			}
+			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer(),vipstatus);
+			Thread customerThread = new Thread(cusotmer[i],vipstatus?"VIP Customer-"+i:"Customer-" + i);
 			customerThread.start();
 			runningConsumerThreads.add(customerThread);
 
@@ -207,7 +226,7 @@ public class TicketBookingApplication {
 			try {
 				System.out.print("Enter Ticket Release frequency time by vendor in seconds: ");
 				ticketReleaseRate = input.nextInt();
-				if (ticketReleaseRate < 0 ) {
+				if (ticketReleaseRate < 1 ) {
 					System.out.println("Enter a valid Ticket Release Rate in seconds");
 					continue;
 				}

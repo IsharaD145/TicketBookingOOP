@@ -1,8 +1,12 @@
 package com.ticketbooking.ticketBooking.Contoller;
 
 import com.ticketbooking.ticketBooking.*;
+import com.ticketbooking.ticketBooking.config.ConfigurationManager;
+import com.ticketbooking.ticketBooking.model.TicketConfig;
+import com.ticketbooking.ticketBooking.services.Consumer;
+import com.ticketbooking.ticketBooking.services.TicketPool;
+import com.ticketbooking.ticketBooking.services.Vendor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,6 +23,7 @@ public class TicketController{
         //save the data to the "Configuration.json"
         ConfigurationManager.configurationSave(config);
         TicketBookingApplication.printConfig(config);    //print the ticket configuration information
+        TicketBookingApplication.stopper();
     }
 
     @PostMapping("/stop")
@@ -64,7 +69,7 @@ public class TicketController{
     @GetMapping("/addconsumer")
     public void addConsumer(){
         TicketPool ticketpool = new TicketPool(config.getMaxTicketCapacity());
-        Consumer tred = new Consumer(ticketpool,config.getCustomerRetreivalRate(),config.getTotalTicketsByConsumer());
+        Consumer tred = new Consumer(ticketpool,config.getCustomerRetreivalRate(),config.getTotalTicketsByConsumer(),false);
         Thread consumerThread = new Thread(tred,"consumer-"+(config.getNoOfConsumers()+1));
         config.setNoOfConsumers((config.getNoOfConsumers()+1));
         ConfigurationManager.configurationSave(config);
