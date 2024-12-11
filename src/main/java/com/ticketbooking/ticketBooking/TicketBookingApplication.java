@@ -1,11 +1,20 @@
 package com.ticketbooking.ticketBooking;
 import java.util.*;
+
+import com.ticketbooking.ticketBooking.config.ConfigurationManager;
+import com.ticketbooking.ticketBooking.model.TicketConfig;
+import com.ticketbooking.ticketBooking.services.Consumer;
+import com.ticketbooking.ticketBooking.services.TicketPool;
+import com.ticketbooking.ticketBooking.services.Vendor;
+import com.ticketbooking.ticketBooking.util.DatabaseUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 
 @SpringBootApplication
 public class TicketBookingApplication {
+	private static List<Thread> runningVendorThreads = new ArrayList<>();
+	private static List<Thread> runningConsumerThreads = new ArrayList<>();
 	static Scanner input = new Scanner(System.in);
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
@@ -29,10 +38,10 @@ public class TicketBookingApplication {
 	}
 
 	private static void startReactApp() {
-		// Start the React app from the Spring Boot application
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder("npm", "start");
 			processBuilder.directory(new File("/Users/isharad/Desktop/IIT modules/L5/OOP prog /CW/springboot/cwfrontend"));
+			processBuilder.environment().put("PORT", "3001"); // Set custom port
 			processBuilder.inheritIO().start();
 		} catch (IOException e) {
 			System.err.println("Error starting React app: " + e.getMessage());
@@ -103,27 +112,78 @@ public class TicketBookingApplication {
 
 	}
 
+
+
+	public static void addvendor( Thread threadrec){
+		runningVendorThreads.add(threadrec);
+	}
+	public static Thread returnremoveVendor(){
+		return runningVendorThreads.remove(0);
+	}
+
+	public static void addConsumer(Thread threadrec){
+		runningConsumerThreads.add(threadrec);
+	}
+
+	public static Thread returnremoveConsumer(){
+		return runningConsumerThreads.remove(0);
+	}
+
 	public static void startThreads(TicketConfig ticketConfig){
+		DatabaseUtil.initializeTables();
 		// Run the simulation using the configuration data
 		TicketPool ticketpool = new TicketPool(ticketConfig.getMaxTicketCapacity());
-		Vendor[] vendors = new Vendor[10];
-		for (int i = 0; i < vendors.length; i++) {
-			vendors[i] = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
-			Thread vendorThread = new Thread(vendors[i], "vendor-" + i);
+		for (int i = 0; i < ticketConfig.getNoOfVendors(); i++) {
+			Vendor tred = new Vendor(ticketpool, ticketConfig.getTicketReleaseRate(), ticketConfig.getTotalTicketsByVendor());
+			Thread vendorThread = new Thread(tred, "vendor-" + i);
 			vendorThread.start();
+			runningVendorThreads.add(vendorThread);
+
 		}
 
-		Consumer[] cusotmer = new Consumer[10];
+		Consumer[] cusotmer = new Consumer[ticketConfig.getNoOfConsumers()];
+		Random random = new Random();
+		boolean vipstatus = false;
 		for (int i = 0; i < cusotmer.length; i++) {
-			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer());
-			Thread customerThread = new Thread(cusotmer[i], "Customer-" + i);
+			int number = random.nextInt(2) + 1;
+			switch (number){
+				case 1:
+					vipstatus = true;
+					break;
+
+				case 2:
+					vipstatus=false;
+					break;
+			}
+			cusotmer[i] = new Consumer(ticketpool, ticketConfig.getCustomerRetreivalRate(), ticketConfig.getTotalTicketsByConsumer(),vipstatus);
+			Thread customerThread = new Thread(cusotmer[i],vipstatus?"VIP Customer-"+i:"Customer-" + i);
 			customerThread.start();
+			runningConsumerThreads.add(customerThread);
+
 		}
+	}
+
+
+
+
+	public static void stopper(){
+		for (Thread thread:runningVendorThreads){
+			if(thread!=null && thread.isAlive()){
+				thread.stop();
+			}
+		}
+		for (Thread thread:runningConsumerThreads){
+			if(thread!=null && thread.isAlive()){
+				thread.stop();
+			}
+		}
+		runningVendorThreads.clear();
+		runningConsumerThreads.clear();
 	}
 
 	public static void makeConfiguration(TicketConfig ticketConfig){
 
-		int totalTicketsVendor,totalTicketsCustomer, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0;
+		int totalTicketsVendor,totalTicketsCustomer, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0,numOfVendors,numOfConsumers;
 
 		// Loop for entering Maximum Ticket Capacity
 		while (true) {
@@ -166,7 +226,7 @@ public class TicketBookingApplication {
 			try {
 				System.out.print("Enter Ticket Release frequency time by vendor in seconds: ");
 				ticketReleaseRate = input.nextInt();
-				if (ticketReleaseRate < 0 ) {
+				if (ticketReleaseRate < 1 ) {
 					System.out.println("Enter a valid Ticket Release Rate in seconds");
 					continue;
 				}
@@ -209,6 +269,38 @@ public class TicketBookingApplication {
 				break;
 			} catch (InputMismatchException e) {
 				System.out.println("Enter a valid integer for Customer Retrieval Frequency in seconds.");
+				input.nextLine();
+			}
+		}
+
+		while(true){
+			try{
+				System.out.print("Enter number of Vendors: ");
+				numOfVendors = input.nextInt();
+				if(numOfVendors<0){
+					System.out.println("number of vendors cannot be less than 0");
+					continue;
+				}
+				ticketConfig.setNoOfVendors(numOfVendors);
+				break;
+			}catch (InputMismatchException e){
+				System.out.println("Enter valid data type for number of Vendors");
+				input.nextLine();
+			}
+		}
+
+		while(true){
+			try{
+				System.out.print("Enter number of Consumers: ");
+				numOfConsumers = input.nextInt();
+				if(numOfConsumers<0){
+					System.out.println("number of Consumers cannot be less than 0");
+					continue;
+				}
+				ticketConfig.setNoOfVendors(numOfVendors);
+				break;
+			}catch (InputMismatchException e){
+				System.out.println("Enter valid data type for number of Vendors");
 				input.nextLine();
 			}
 		}
