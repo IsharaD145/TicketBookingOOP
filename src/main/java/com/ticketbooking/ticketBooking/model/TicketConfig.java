@@ -13,6 +13,11 @@ public class TicketConfig{
     private int noOfConsumers;
 
 
+    /**
+     * Returns a string representation of the TicketConfig object.
+     *
+     * @return a string containing the details of the ticket configuration.
+     */
 
     @Override
     public String toString() {

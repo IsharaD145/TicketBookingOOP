@@ -11,43 +11,45 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.*;
 
+/**
+ * Main application class for the Ticket Booking simulation.
+ * Handles the configuration of the simulation and the startup of vendor and consumer threads.
+ */
 @SpringBootApplication
 public class TicketBookingApplication {
 	private static List<Thread> runningVendorThreads = new ArrayList<>();
 	private static List<Thread> runningConsumerThreads = new ArrayList<>();
 	static Scanner input = new Scanner(System.in);
+
+	/**
+	 * Main method to start the Ticket Booking simulation.
+	 * It provides options for running the simulation via CLI or exiting.
+	 * @param args Command line arguments.
+	 */
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
 		System.out.println("***********************************************************");
-		System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION       *");
+		System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION        *");
 		System.out.println("***********************************************************");
-		System.out.println("*  1. Start in GUI                                       *");
-		System.out.println("*  2. Continue in CLI                                    *");
+		System.out.println("*  1. Continue in CLI                                     *");
+		System.out.println("*  2. exit                                                *");
 		System.out.println("***********************************************************");
 		int runmethod = input.nextInt();
 
 		switch (runmethod) {
 			case 1:
-				startReactApp();
+				runCLI();
 				break;
 
 			case 2:
-				runCLI();
+				System.exit(0);
 				break;
 		}
 	}
 
-	private static void startReactApp() {
-		try {
-			ProcessBuilder processBuilder = new ProcessBuilder("npm", "start");
-			processBuilder.directory(new File("/Users/isharad/Desktop/IIT modules/L5/OOP prog /CW/springboot/cwfrontend"));
-			processBuilder.environment().put("PORT", "3000"); // Set custom port
-			processBuilder.inheritIO().start();
-		} catch (IOException e) {
-			System.err.println("Error starting React app: " + e.getMessage());
-		}
-	}
-
+	/**
+	 * Runs the CLI interface to configure and start the simulation.
+	 */
 	private static void runCLI() {
 		int choice = 0;
 
@@ -98,7 +100,11 @@ public class TicketBookingApplication {
 
     }
 
-
+	/**
+	 * Prints the current configuration of the ticket booking simulation.
+	 *
+	 * @param ticketConfig The configuration object containing ticket details.
+	 */
 	public static void printConfig(TicketConfig ticketConfig){
 		System.out.println("\n*******************************************************");
 		System.out.println("*        Ticket Configuration information             *");
@@ -111,7 +117,6 @@ public class TicketBookingApplication {
 		System.out.println("*******************************************************");
 
 	}
-
 
 
 	public static void addvendor( Thread threadrec){
@@ -129,6 +134,11 @@ public class TicketBookingApplication {
 		return runningConsumerThreads.remove(0);
 	}
 
+	/**
+	 * Starts the vendor and consumer threads based on the configuration details.
+	 *
+	 * @param ticketConfig The configuration object containing simulation details.
+	 */
 	public static void startThreads(TicketConfig ticketConfig){
 		DatabaseUtil.initializeTables();
 		// Run the simulation using the configuration data
@@ -164,8 +174,9 @@ public class TicketBookingApplication {
 	}
 
 
-
-
+	/**
+	 * Stops all running vendor and consumer threads and clears the thread lists.
+	 */
 	public static void stopper(){
 		for (Thread thread:runningVendorThreads){
 			if(thread!=null && thread.isAlive()){
@@ -181,6 +192,11 @@ public class TicketBookingApplication {
 		runningConsumerThreads.clear();
 	}
 
+	/**
+	 * Collects and sets the configuration details from the user.
+	 *
+	 * @param ticketConfig The TicketConfig object to store the configuration details.
+	 */
 	public static void makeConfiguration(TicketConfig ticketConfig){
 
 		int totalTicketsVendor,totalTicketsCustomer, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity = 0,numOfVendors,numOfConsumers;
@@ -261,7 +277,7 @@ public class TicketBookingApplication {
 			try {
 				System.out.print("Enter Customer Retrieval frequency time by a customer in seconds: ");
 				customerRetrievalRate = input.nextInt();
-				if (customerRetrievalRate< 0) {
+				if (customerRetrievalRate< 1) {
 					System.out.println("Enter a valid Customer Retrieval Frequency in seconds.");
 					continue;
 				}
@@ -273,11 +289,12 @@ public class TicketBookingApplication {
 			}
 		}
 
+		// Loop for entering number of Vendors
 		while(true){
 			try{
 				System.out.print("Enter number of Vendors: ");
 				numOfVendors = input.nextInt();
-				if(numOfVendors<0){
+				if(numOfVendors<1){
 					System.out.println("number of vendors cannot be less than 0");
 					continue;
 				}
@@ -289,11 +306,12 @@ public class TicketBookingApplication {
 			}
 		}
 
+		// Loop for entering number of Consumers
 		while(true){
 			try{
 				System.out.print("Enter number of Consumers: ");
 				numOfConsumers = input.nextInt();
-				if(numOfConsumers<0){
+				if(numOfConsumers<1){
 					System.out.println("number of Consumers cannot be less than 0");
 					continue;
 				}
@@ -304,6 +322,7 @@ public class TicketBookingApplication {
 				input.nextLine();
 			}
 		}
+		//save the configuration
 		ConfigurationManager.configurationSave(ticketConfig);
 	}
 	}
