@@ -11,6 +11,10 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Represents a pool of tickets managed for the ticket booking simulation.
+ * Allows tickets to be added by vendors and purchased by consumers in a synchronized manner.
+ */
 public class TicketPool {
     private Vector<Ticket> tickets = new Vector<>();
     private int maxTickets;
@@ -23,6 +27,14 @@ public class TicketPool {
     }
 
     // Method to add tickets
+    /**
+     * Adds a ticket to the pool.
+     * Blocks the calling thread if the pool is full until space is available.
+     * The ticket is also saved to the database.
+     *
+     * @param ticket the ticket to add to the pool.
+     * @throws SQLException if there is an error during database operations.
+     */
     public synchronized void addTicket(Ticket ticket) throws SQLException {
         while (tickets.size() >= maxTickets) {
             try {
@@ -40,7 +52,7 @@ public class TicketPool {
         tickets.add(ticket);
         try{
             Connection conn = DatabaseUtil.getConnection();
-            // Insert Ticket
+            // Insert ticket details into the Ticket table
             String insertTicket = "INSERT INTO Ticket (ticket_ID, event_name, ticket_price) VALUES (?, ?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(insertTicket)) {
                 ps.setString(1, ticket.getTicketId());
@@ -52,7 +64,7 @@ public class TicketPool {
         }
         try{
             Connection conn = DatabaseUtil.getConnection();
-            // Insert Ticket
+            // Insert vendor details into the Vendor table
             String insertVendor = "INSERT INTO Vendor(vendor_name,ticket_ID) VALUES(?,?)";
             try(PreparedStatement vend = conn.prepareStatement(insertVendor)){
                 vend.setString(1,Thread.currentThread().getName());
@@ -68,7 +80,12 @@ public class TicketPool {
 
     }
 
-    // Method to buy tickets
+
+    /**
+     * Buys a ticket from the pool.
+     * Blocks the calling thread if the pool is empty until a ticket becomes available.
+     * The ticket is also saved to the database.
+     */
     public synchronized void buyTicket() {
         while (tickets.isEmpty()) {
             try {
@@ -77,6 +94,7 @@ public class TicketPool {
                 wait();
             } catch (InterruptedException e) {
                 System.err.println("Buy operation interrupted.");
+                TicketWebSocketHandler.broadcast("Buy operation interrupted");
             }
         }
 
@@ -87,6 +105,7 @@ public class TicketPool {
 
         try{
             Connection connection = DatabaseUtil.getConnection();
+            // Insert consumer details into the Consumer table
             String insertConsumer = "INSERT INTO Consumer (consumer_name,vip_status,ticket_ID) VALUES(?,?,?)";
             try(PreparedStatement consumer = connection.prepareStatement(insertConsumer)){
                 consumer.setString(1,Thread.currentThread().getName());
