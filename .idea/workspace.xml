@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d1ac585-dd20-4d81-974d-21e9fa33e150" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ticketpool.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/Ticketpool.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ticketpool.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/Ticketpool.trace.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ticketpool.trace.db.old" beforeDir="false" afterPath="$PROJECT_DIR$/Ticketpool.trace.db.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/config/Configuration.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ticketbooking/ticketBooking/config/Configuration.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +89,7 @@
       <workItem from="1732626354975" duration="197897000" />
       <workItem from="1733825953946" duration="36962000" />
       <workItem from="1733931635665" duration="24498000" />
-      <workItem from="1733977273438" duration="4591000" />
+      <workItem from="1733977273438" duration="5354000" />
     </task>
     <servers />
   </component>
