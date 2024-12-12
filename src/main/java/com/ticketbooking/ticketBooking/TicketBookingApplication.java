@@ -28,13 +28,29 @@ public class TicketBookingApplication {
 	 */
 	public static void main(String[] args) {
         SpringApplication.run(TicketBookingApplication.class, args);
-		System.out.println("***********************************************************");
-		System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION        *");
-		System.out.println("***********************************************************");
-		System.out.println("*  1. Continue in CLI                                     *");
-		System.out.println("*  2. exit                                                *");
-		System.out.println("***********************************************************");
-		int runmethod = input.nextInt();
+		int runmethod=0;
+
+				System.out.println("***********************************************************");
+				System.out.println("*             WELCOME TO TICKET BOOKING SIMULATION        *");
+				System.out.println("***********************************************************");
+				System.out.println("*  1. Continue in CLI                                     *");
+				System.out.println("*  2. exit                                                *");
+				System.out.println("***********************************************************");
+		while(true){
+			try {
+				runmethod = input.nextInt();
+
+				if(runmethod != 1 && runmethod != 2){
+					System.out.println("only input (1,2)");
+					continue;
+				}
+				break;
+			}catch (InputMismatchException e){
+				System.out.println("Enter valid data type");
+				input.nextLine();
+			}
+		}
+
 
 		switch (runmethod) {
 			case 1:
