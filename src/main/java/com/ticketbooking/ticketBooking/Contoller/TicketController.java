@@ -68,7 +68,7 @@ public class TicketController{
      * Dynamically adds a new vendor to the simulation.
      * Updates the configuration and starts a new vendor thread.
      */
-    @PostMapping("/increaseVendor")
+    @GetMapping("/increaseVendor")
     public void increaseVendor(){
         TicketConfig config = ConfigurationManager.configurationLoad();
         TicketPool ticketpool = new TicketPool(config.getMaxTicketCapacity());
